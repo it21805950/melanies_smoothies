@@ -47,30 +47,8 @@ if ingredients_list:
 
 #new section to display smoothiefroot nutrition information
 import requests
-#smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
 #st.text(smoothiefroot_response)
-#sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
+sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
-import requests
-import pandas as pd
-import streamlit as st
-
-# Get the data
-response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-data = response.json()
-
-# Normalize the nutrition values into rows
-nutrition_items = data.pop("nutritions")  # remove 'nutritions' from main dict
-nutrition_df = pd.DataFrame([
-    {
-        "type": key,
-        "nutrition": value,
-        **data  # include the rest of the fruit info in each row
-    }
-    for key, value in nutrition_items.items()
-])
-
-# Display the styled table
-st.subheader("🍉 Watermelon Nutrition Breakdown")
-st.dataframe(nutrition_df, use_container_width=True)
 
