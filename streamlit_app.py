@@ -1,6 +1,6 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+#from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 
 # App title
@@ -12,7 +12,8 @@ name_on_order = st.text_input("Name on smoothie:")
 st.write("Name on your smoothie will be:", name_on_order)
 
 # Get session and fruit options
-session = get_active_session()
+cnx = st.connection("snowflake")
+session = cnx_session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 
 # Extract fruit names as a list for multiselect
