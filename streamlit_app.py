@@ -51,16 +51,26 @@ import requests
 #st.text(smoothiefroot_response)
 #sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
-
+import requests
 import pandas as pd
+import streamlit as st
 
-# Get JSON response
-data = smoothiefroot_response.json()
+# Get the data
+response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+data = response.json()
 
-# Convert to DataFrame
-sf_df = pd.DataFrame([data])  # wrap in list to form a row
+# Normalize the nutrition values into rows
+nutrition_items = data.pop("nutritions")  # remove 'nutritions' from main dict
+nutrition_df = pd.DataFrame([
+    {
+        "type": key,
+        "nutrition": value,
+        **data  # include the rest of the fruit info in each row
+    }
+    for key, value in nutrition_items.items()
+])
 
-# Display as table
-st.subheader("🍉 Watermelon Nutrition Information")
-st.dataframe(data=sf_df, use_container_width=True)
+# Display the styled table
+st.subheader("🍉 Watermelon Nutrition Breakdown")
+st.dataframe(nutrition_df, use_container_width=True)
 
