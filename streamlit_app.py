@@ -13,7 +13,7 @@ st.write("Name on your smoothie will be:", name_on_order)
 
 # Get session and fruit options
 cnx = st.connection("snowflake")
-session = cnx_session()
+session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 
 # Extract fruit names as a list for multiselect
